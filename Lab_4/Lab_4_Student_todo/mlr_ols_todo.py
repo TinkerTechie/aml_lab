@@ -10,6 +10,7 @@ import pandas as pd
 # ============================================================
 
 def mae(y, y_pred):
+    return np.mean(np.abs(y- y_pred))
     # TODO:
     # Calculate Mean Absolute Error:
     #
@@ -18,6 +19,7 @@ def mae(y, y_pred):
 
 
 def mse(y, y_pred):
+    return np.mean((y-y_pred)**2)
     # TODO:
     # Calculate Mean Squared Error:
     #
@@ -26,6 +28,7 @@ def mse(y, y_pred):
 
 
 def rmse(y, y_pred):
+    return np.sqrt(np.mean((y-y_pred)**2))
     # TODO:
     # Calculate Root Mean Squared Error:
     #
@@ -34,6 +37,10 @@ def rmse(y, y_pred):
 
 
 def r_square(y, y_pred, y_mean):
+    ss_pred = np.sum(y-y_pred)** 2)
+    ss_total = np.sum(y-y_mean)** 2)
+    
+    return 1 - ss_pred/ss_total
     # TODO:
     # Calculate R²:
     #
@@ -42,6 +49,11 @@ def r_square(y, y_pred, y_mean):
 
 
 def fit_multiple_lr(X, y):
+    ones = np.ones(len(X) ,1)
+    X = np.hstack(ones,X)
+    beta = np.linalg.inv(X.T@X) @ X.T @ y
+
+    return beta 
     # TODO:
     # Implement the compact OLS Normal Equation:
     # beta = (X^T X)^(-1) X^T y
@@ -52,6 +64,14 @@ def fit_multiple_lr(X, y):
 
 
 def fit_multiple_lr_beta(X, y):
+    ones = np.ones(len(X),1)
+    X = np.hstack(ones,X)
+    a = X.T @ X 
+    b = np.linalg.inv(a)
+    beta = b @ X.T @ y
+    return beta
+    
+    
     # TODO:
     # Implement the broken-down Normal Equation:
     # 1. Add an intercept column of ones.
@@ -66,6 +86,9 @@ def fit_multiple_lr_beta(X, y):
 
 
 def predict_multiple_lr(X, beta):
+    ones = np.ones(len(X),1)
+    X = np.hstack(ones,X)
+    y_pred = X@beta 
     # TODO:
     # Add an intercept column of ones and calculate predictions:
     # y_pred = X @ beta
